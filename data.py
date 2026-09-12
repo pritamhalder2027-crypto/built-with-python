@@ -1,18 +1,34 @@
-from bs4 import BeautifulSoup
-import requests
+#Define the menu of restuarant
+menu = {
+    'Pizza':80,
+    'Pasta':70,
+    'Salad':60,
+    'Burger':75,
+    'Coffee':40,
+}
 
-html_text = requests.get('https://in.indeed.com/jobs?q=python&l=&from=searchOnHP')
-soup = BeautifulSoup(html_text.text, 'html.parser')
-jobs = soup.find_all('li', class_ = 'clearfix job-bx wht-shd-bx')
-for job in jobs:
-    company_name = job.find('h3', class_ = 'joblist-comp-name').text.replace(' ', '')
-    skills = job.find('span', class_ = 'srp-skills').text.replace(' ', '')
-    published_date = job.find('span', class_= 'sim-posted').span.text
-    print(published_date)
+#Greet
+print("Welcome to the PYTHON restaurant")
+print("Pizza: Rs80\nPasta: Rs70\nSalad: Rs60\nBurger: Rs75\nCoffee: Rs40\n")
 
-    print(f'''
-    Company Name: {company_name}
-    Required Skills: {skills}
-    ''')
+order_total = 0
+#80 + 70 = 150
 
-    print('')
+item_1 = input("Enter the name of item you want to order: ")
+if item_1 in menu:
+    order_total += menu[item_1]
+    print(f"Your item {item_1} has been ordered ")
+
+else:
+    print(f"Ordered {item_1} is not available yet! ")
+
+another_order = input("Do you want to add another item? (Yes/No): ")
+if another_order == "Yes":
+    item_2 = input("Enter the name of 2nd item = ")
+    if item_2 in menu:
+        order_total += menu[item_2]
+        print(f"Your total order is {order_total}")
+    else:
+        print(f"Sorry {item_2} is not available yet! ")
+
+print(f"Your total amount of items to pay is {order_total}")
