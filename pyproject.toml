@@ -8,4 +8,5 @@ dependencies = [
     "qrcode==8.2",
     "requests==2.34.2",
     "twilio==9.11.1",
+    "tzdata==2026.4",
 ]

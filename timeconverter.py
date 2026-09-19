@@ -1,17 +1,19 @@
-from datetime import datetime
 from zoneinfo import ZoneInfo
+from datetime import datetime
 
-# STEP 1: Data - city names and their time zone names
+#Step-1: Data - city names and their time zone names
 cities = {
-    "mumbai": "Asia/Kolkata",
+    "mumbai": "Asia/Mumbai",
     "singapore": "Asia/Singapore",
     "london": "Europe/London",
     "new york": "America/New_York",
     "tokyo": "Asia/Tokyo",
+    "toronto": "America/Toronto",
+    "hongkong": "Asia/HongKong",
     "dubai": "Asia/Dubai",
 }
 
-# STEP 2: Decide morning / afternoon / evening / night from the hour
+#Step-2: Decide morning / afternoon / evening / night
 def part_of_day(hour):
     if 5 <= hour < 12:
         return "Morning"
@@ -22,44 +24,21 @@ def part_of_day(hour):
     else:
         return "Night"
 
-# STEP 3: Get the current time in any city
+#Step-3: Get the current time in any city
 def get_time(city):
     zone = ZoneInfo(cities[city])
     return datetime.now(zone)
 
-# STEP 4: Ask the user and show the result
+#Step-4: Ask the user and show the result
 home = input("Your city: ").lower()
 target = input("City to check: ").lower()
 
 if home not in cities or target not in cities:
-    print("Sorry, that city is not in my list yet.")
+    print("Sorry,, that city is not in my list yet")
 else:
     home_time = get_time(home)
     target_time = get_time(target)
 
-    print(f"Time in {home.title()}: {home_time.strftime('%I:%M %p')} ({part_of_day(home_time.hour)})")
-    print(f"Time in {target.title()}: {target_time.strftime('%I:%M %p')} ({part_of_day(target_time.hour)})")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    print(f"Time in {home.title()}: {home_time.strftime('%H:%M')} ({part_of_day(home_time.hour)})")
+    print(f"Time in {target.title()}: {target_time.strftime('%H:%M')} ({part_of_day(target_time.hour)})")
 
