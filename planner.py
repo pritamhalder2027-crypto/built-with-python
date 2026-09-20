@@ -68,27 +68,3 @@ else:
             verdict = "Good time" if is_good_time(local.hour) else "Inconvenient"
             print(f"{city.title():<10} {local.strftime('%H:%M')}{day_note} "
                   f"({part_of_day(local.hour)}) - {verdict}")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
