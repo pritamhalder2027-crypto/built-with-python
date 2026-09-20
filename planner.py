@@ -3,7 +3,7 @@ from zoneinfo import ZoneInfo
 
 # STEP 1: Data - city names and their time zone names
 cities = {
-    "mumbai": "Asia/Kolkata",
+    "kolkata": "Asia/Kolkata",
     "singapore": "Asia/Singapore",
     "london": "Europe/London",
     "new york": "America/New_York",
