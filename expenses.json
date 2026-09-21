@@ -1,0 +1,20 @@
+[
+  {
+    "date": "2026-09-21",
+    "category": "food",
+    "amount": 499.0,
+    "note": ""
+  },
+  {
+    "date": "2026-09-21",
+    "category": "travel",
+    "amount": 299.0,
+    "note": "could have saved more"
+  },
+  {
+    "date": "2026-09-21",
+    "category": "bills",
+    "amount": 3200.0,
+    "note": "saving is necessary here"
+  }
+]
