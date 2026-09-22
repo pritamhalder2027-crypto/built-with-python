@@ -16,5 +16,29 @@
     "category": "bills",
     "amount": 3200.0,
     "note": "saving is necessary here"
+  },
+  {
+    "date": "2026-09-22",
+    "category": "food",
+    "amount": 670.0,
+    "note": "birthday expense (cheesecake)"
+  },
+  {
+    "date": "2026-09-22",
+    "category": "food",
+    "amount": 650.0,
+    "note": "Birthday expense (cheesecake)"
+  },
+  {
+    "date": "2026-09-22",
+    "category": "travel",
+    "amount": 500.0,
+    "note": "Parel Ganpati Darshan"
+  },
+  {
+    "date": "2026-09-22",
+    "category": "bills",
+    "amount": 899.0,
+    "note": "internet/wifi"
   }
 ]
