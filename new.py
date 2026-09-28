@@ -1,98 +1,64 @@
-import json
-from datetime import datetime, timedelta
+class Character:
+    def __init__(self, name, health, attack_power, defense=0):
+        self.name = name
+        self.max_health = health   # set this first: the setter depends on it
+        self._health = health
+        self.attack_power = attack_power
+        self.defense = defense     # an attribute, not a method
 
-from planner import time_text
+    @property
+    def health(self):
+        return self._health
 
-FILE = "reminders.json"
+    @health.setter
+    def health(self, value):
+        self._health = max(0, min(value, self.max_health))
 
-def load_reminders():
-    try:
-        with open(FILE, "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return []
+    def is_alive(self):
+        return self._health > 0
 
-def save_reminders(reminders):
-       with open(FILE, "w") as f:
-           json.dump(reminders, f, indent=2)
+    def take_damage(self, amount):
+        reduced = max(0, amount - self.defense)   # defense reduces incoming damage
+        self.health -= reduced
+        print(f"{self.name} takes {reduced} damage! ({self._health}/{self.max_health} HP left)")
 
-def add_reminder(reminders):
-    name = input("What is it? (e.g. Vitamin D, submit report): ").strip()
-    time_text = input("Time (HH:MM, 24-hour): ").strip()
-    timing = input("Timing (once/daily): ").strip().lower()
-
-    try:
-        datetime.strptime(time_text, "%H:%M")
-    except ValueError:
-        print("Please enter a time like 16:30")
-        return
+    def attack(self, other):
+        print(f"{self.name} attacks {other.name}!")
+        other.take_damage(self.attack_power)
 
 
-    reminders.append({
-        "name": name,
-        "time": time_text,
-        "timing": timing,
-        "done_today": False,
-    })
-    save_reminders(reminders)
-    print("Reminder added!")
+def battle(a, b):
+    attacker, defender = a, b
+    while a.is_alive() and b.is_alive():
+        attacker.attack(defender)
+        attacker, defender = defender, attacker   # swap turns
+    winner = a if a.is_alive() else b
+    print(f"\n{winner.name} wins!")
 
-def check_reminder(reminders):
-    now = datetime.now()
-    print(f"\nCurrent time: {now.strftime('%H:%M')}\n")
+class Warrior(Character):
+    def __init__(self, name):
+        # super() calls the parent's __init__ so we don't repeat ourselves
+        super().__init__(name, health=120, attack_power=14, defense=5)
 
-    due_now = []
-    upcoming = []
+    def attack(self, other):
+        # Override: same method name, different behavior
+        print(f"{self.name} swings a heavy sword!")
+        other.take_damage(self.attack_power)
 
-    for r in reminders:
-        reminder_time = datetime.strptime(r["time"], "%H:%M").time()
-        reminder_dt = datetime.combine(now.date(), reminder_time)
 
-        diff = (reminder_dt - now).total_seconds() / 60
+class Mage(Character):
+    def __init__(self, name):
+        super().__init__(name, health=70, attack_power=25, defense=0)
+        self.mana = 30
 
-        if r["done_today"]:
-            continue
-        elif -15 <= diff <= 0:
-            due_now.append(r)
-        elif 0 < diff <= 60:
-            upcoming.append((r, int(diff)))
+    def attack(self, other):
+        if self.mana >= 10:
+            self.mana -= 10
+            print(f"{self.name} casts a fireball! (mana: {self.mana})")
+            other.take_damage(self.attack_power)
+        else:
+            print(f"{self.name} is out of mana and falls down!...")
+            other.take_damage(3)
 
-    if due_now:
-        print("Due now:")
-        for r in due_now:
-            print(f" - {r['name']} ({r['time']})")
-    if upcoming:
-        print("\nComing up:")
-        for r, mins in upcoming:
-            print(f" - {r['name']} at {r['time']} (in {mins} min)")
-    if not due_now and not upcoming:
-        print("Nothing due right now.")
 
-def mark_done(reminders):
-    for i, r in enumerate(reminders, start=1):
-        print(f"{i}. {r['name']} ({r['time']})")
-    try:
-        choice = int(input("Mark which one as done? (number): "))
-        reminders[choice - 1]["done_today"] = True
-        save_reminders(reminders)
-        print("Marked as done for today!")
-    except (ValueError, IndexError):
-        print("Invalid choice.")
-
-reminders = load_reminders()
-
-while True:
-    print("\n1. Add reminder\n2. Check what's due\n3. Mark as done\n4. Exit")
-    choice = input("Choose: ").strip()
-
-    if choice == "1":
-        add_reminder(reminders)
-    elif choice == "2":
-        check_reminder(reminders)
-    elif choice == "3":
-        mark_done(reminders)
-    elif choice == "4":
-        print("Closing program...")
-        break
-    else:
-        print("Please choose from 1 to 4.")
+battle(Warrior("Tempest"), Mage("Merlin"))

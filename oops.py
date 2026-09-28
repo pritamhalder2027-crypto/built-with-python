@@ -1,35 +1,28 @@
-class Character:
-    def __init__(self, name, health, attack_power):
+class Dog:
+    def __init__(self, name, age, tricks):
         self.name = name
-        self._health = health
-        self.attack_power = attack_power
-        self.max_health = self.health
+        self.age = age
+        self.tricks = []
 
-    @property
-    def health(self):
-        return self._health
+    def old(self):
+        print(f"{self.name} is {self.age} years old")
 
-    @health.setter
-    def health(self, value):
-        self._health = max (0, min(value, self.max_health))
-        # This is encapsulation in action: we control how health can change
+    def birthday(self):
+        self.age += 1
+        print(f"Happy birthday {self.name}!")
 
-    def is_alive(self):
-        return self._health > 0
+    def learn_trick(self, tricks):
+        print(f"{self.name} is able to do {tricks}!")
 
-    def take_damage(self, amount):
-        self.health -= amount
-        print(f"{self.name} takes {amount} damage! ({self._health}/{self.max_health} HP left")
 
-    def attack(self, other):
-        print(f"{self.name} attacks {other.name}!")
-        other.take_damage(self.attack_power)
+dog1 = Dog("Luna", 3, tricks=['to handshake'])
+dog1.old()
+dog1.birthday()
+dog1.old()
+dog1.learn_trick(tricks='handshake')
 
-# Creating objects (instances) from the character class
-hero = Character("Aria", health=100, attack_power=15)
-dragon = Character("Dragon", health=40, attack_power=8)
-
-hero.attack(dragon)
-dragon.attack(hero)
-
-print(hero.is_alive(), dragon.is_alive())
+dog2 = Dog("Ruby", 2, tricks=['to handshake'])
+dog2.old()
+dog2.birthday()
+dog2.old()
+dog2.learn_trick(tricks='handshake')
