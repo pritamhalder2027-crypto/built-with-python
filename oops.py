@@ -1,28 +1,51 @@
-class Dog:
-    def __init__(self, name, age, tricks):
+from abc import ABC, abstractmethod
+
+class Character(ABC):
+    def __init__(self, name, health, attack_power):
         self.name = name
-        self.age = age
-        self.tricks = []
+        self.health = health
+        self.attack_power = attack_power
 
-    def old(self):
-        print(f"{self.name} is {self.age} years old")
+    def show_status(self):
+        print(f"{self.name}: {self.health}")
 
-    def birthday(self):
-        self.age += 1
-        print(f"Happy birthday {self.name}!")
+    def take_damage(self, amount):
+        self.health -= amount
+        print(f"{self.name} takes {amount} damage!")
 
-    def learn_trick(self, tricks):
-        print(f"{self.name} is able to do {tricks}!")
+    @abstractmethod
+    def attack(self, other):
+        pass
 
 
-dog1 = Dog("Luna", 3, tricks=['to handshake'])
-dog1.old()
-dog1.birthday()
-dog1.old()
-dog1.learn_trick(tricks='handshake')
+class Warrior(Character):
+    def __init__(self, name, health, attack_power, shield):
+        super().__init__(name, health, attack_power)
+        self.shield = shield
 
-dog2 = Dog("Ruby", 2, tricks=['to handshake'])
-dog2.old()
-dog2.birthday()
-dog2.old()
-dog2.learn_trick(tricks='handshake')
+    def attack(self, other):
+        print(f"{self.name} bashes {other.name} with a shield charged strike!")
+        other.take_damage(self.attack_power)
+
+
+class Mage(Character):
+    def __init__(self, name, health, attack_power, mana):
+        super().__init__(name, health, attack_power)
+        self.mana = mana
+
+    def attack(self, other):
+        if self.mana >= 10:
+            self.mana -= 10
+            print(f"{self.name} casts a spell! (mana left: {self.mana})")
+            other.take_damage(self.attack_power)
+        else:
+            print(f"{self.name} is out of mana and can't attack!")
+
+
+warrior = Warrior("Eris", 100, 45, 60)
+mage = Mage("Laplace", 130, 25, 50)
+
+for i in range(7):
+    mage.attack(warrior)
+    warrior.show_status()
+
