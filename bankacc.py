@@ -20,10 +20,9 @@ class Account(ABC):
 
 class SavingsAccount(Account):
     def withdraw(self, amount):
-        if amount > self._balance:
+        if self._balance - amount:
             print("Enter a valid amount, insufficient funds!")
         else:
-            self._balance -= amount
             print(f"Withdrew {amount}. New balance: {self._balance}")
 
 class CheckingAccount(Account):
@@ -32,12 +31,12 @@ class CheckingAccount(Account):
         self.overdraft_limit = overdraft_limit
 
     def withdraw(self, amount):
-        if amount <= self.overdraft_limit:
-            print(f"Withdrew {amount}. New balance: {self._balance}")
-        else:
+        if self._balance - amount < -self.overdraft_limit:
             print("Enter a valid amount, insufficient funds!")
+        else:
+            self._balance -= amount
+            print(f"Withdrew {amount}. New balance: {self._balance}")
 
-checking = CheckingAccount("Rohan", 100, 500)
-checking.withdraw(300)
-checking.withdraw(700)
+checking2 = CheckingAccount("Meera", 100, 500)
+checking2.withdraw(700)
 
