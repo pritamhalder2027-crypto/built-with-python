@@ -20,9 +20,10 @@ class Account(ABC):
 
 class SavingsAccount(Account):
     def withdraw(self, amount):
-        if self._balance - amount:
+        if amount > self._balance:
             print("Enter a valid amount, insufficient funds!")
         else:
+            self._balance -= amount
             print(f"Withdrew {amount}. New balance: {self._balance}")
 
 
@@ -62,6 +63,20 @@ class PremiumAccount(CheckingAccount):
             print(f"Withdrew {amount} (+{fee} fee). New balance: {self._balance}")
 
 
+class SeniorAccount(SavingsAccount):
+    def withdraw(self, amount):
+        if amount > self._balance:
+            print('Enter a valid amount, insufficient funds!')
+        else:
+            self._balance -= amount
+            print(f"Withdrawn {amount}, New balance: {self._balance}")
+
+
+checking = SavingsAccount("Yumiko", 500)
+checking.withdraw(80)
+
+checking = SeniorAccount("Emi", 3479)
+checking.withdraw(605)
 
 checking = CheckingAccount("Rohan", 100, 500)
 checking.withdraw(50)
