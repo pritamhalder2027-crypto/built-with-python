@@ -50,3 +50,17 @@ class AudioBook(LibraryItem):
         else:
             self.is_checked_out = True
             print(f"'{self.title}' checked out — you have it for {self.duration_minutes} minutes.")
+
+
+book = Book("Atomic Habits", "James Clear")
+book.check_out()
+book.check_out()   # should refuse
+
+ebook = EBook("Deep Work", "Cal Newport")
+ebook.check_out()
+ebook.check_out()   # should succeed anyway
+ebook.check_out()   # should succeed anyway
+
+audiobook = AudioBook("Dune", "Frank Herbert", 320)
+audiobook.check_out()
+audiobook.check_out()   # should refuse
