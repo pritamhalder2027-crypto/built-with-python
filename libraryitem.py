@@ -61,7 +61,7 @@ ebook.check_out()
 ebook.check_out()   # should succeed anyway
 ebook.check_out()   # should succeed anyway
 
-audiobook = AudioBook("Dune", "frank Herbert", 320)
+audiobook = AudioBook("Dune", "Frank Herbert", 320)
 audiobook.check_out()
 audiobook.check_out()   # should refuse
 
